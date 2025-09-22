@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name" translatable="false">RunningApp</string>
+    <string-array name="filter_options">
+        <item>Date</item>
+        <item>Running Time</item>
+        <item>Distance</item>
+        <item>Average Speed</item>
+        <item>Calories Burned</item>
+    </string-array>
+
+    <string name="google_maps_key" translatable="false">AIzaSyDcNUS3TSuOR52qs1lNuTNcVSv12GHDN8I</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="title_grant_Permission">Grant Permission</string>
+    <string name="message_grant_Permission">Please grant all permissions to access additional functionality.</string>
+    <string name="goto_setting">Go to setting</string>
+</resources>
