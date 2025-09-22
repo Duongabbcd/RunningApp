@@ -11,12 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.viewbinding.ViewBinding
 import com.example.runningapp.AppStateListener
-import com.example.runningapp.MainActivity
+import com.example.runningapp.screen.MainActivity
 import com.example.runningapp.MyApplication
 import com.example.runningapp.utils.Common
 import com.example.runningapp.R

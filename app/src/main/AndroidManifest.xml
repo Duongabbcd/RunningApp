@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RunningApp"
         tools:targetApi="31" >
-        <activity android:name=".MainActivity"
+        <activity android:name=".screen.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
