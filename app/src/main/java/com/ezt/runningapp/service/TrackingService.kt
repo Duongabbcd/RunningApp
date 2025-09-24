@@ -67,9 +67,9 @@ class TrackingService : LifecycleService() {
         isTimeEnabled = true
 
         CoroutineScope(Dispatchers.Main).launch {
+            println("TrackingService 1: ${isTracking.value!!}")
             while(isTracking.value!!) {
                 lapTime = System.currentTimeMillis() - timeStarted
-
                 timeRunInMillis.postValue(timeRun + lapTime)
                 if(timeRunInMillis.value!! >= lastSecondTimestamp + 1000L) {
                     timeRunInSeconds.postValue(timeRunInSeconds.value!! +1)
@@ -123,17 +123,28 @@ class TrackingService : LifecycleService() {
 
     private fun updateNotificationTrackingState(isTracking: Boolean) {
         val notificationActionText = if(isTracking) "Pause" else "Resume"
-        val pendingIntent = if(isTracking) {
+        val pendingIntent = if (isTracking) {
             val pauseIntent = Intent(this, TrackingService::class.java).apply {
                 action = ACTION_PAUSE_SERVICE
             }
-            PendingIntent.getService(this, 1, pauseIntent, FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(
+                this,
+                1,
+                pauseIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         } else {
             val resumeIntent = Intent(this, TrackingService::class.java).apply {
                 action = ACTION_START_OR_RESUME_SERVICE
             }
-            PendingIntent.getService(this, 2, resumeIntent, FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(
+                this,
+                2,
+                resumeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         }
+
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
@@ -193,6 +204,10 @@ class TrackingService : LifecycleService() {
                     Log.d(TAG, "Stop service")
                     killService()
                 }
+
+                else -> {
+                    //do  nothing
+                }
             }
         }
         return super.onStartCommand(intent, flags, startId)
@@ -214,7 +229,7 @@ class TrackingService : LifecycleService() {
                 .setContentText("00:00:00")
                 .setContentIntent(getMainActivityPendingIntent())
 
-        startForeground(Constants.NOTIFICATION_ID, notificationBuilder.build())
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
 
         timeRunInSeconds.observe(this, Observer {
             if(!serviceKilled) {
@@ -229,11 +244,17 @@ class TrackingService : LifecycleService() {
         isTracking.postValue(false)
     }
 
-    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
-        this, 0, Intent(this, MainActivity::class.java).also {
-            it.action = ACTION_SHOW_TRACKING_FRAGMENT
-        }, FLAG_UPDATE_CURRENT
-    )
+    private fun getMainActivityPendingIntent(): PendingIntent {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            action = ACTION_SHOW_TRACKING_FRAGMENT
+        }
+        return PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
 
 
     private fun createNotificationChannel(notificationManager: NotificationManager) {

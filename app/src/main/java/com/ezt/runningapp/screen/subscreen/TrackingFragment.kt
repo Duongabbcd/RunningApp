@@ -1,13 +1,18 @@
 package com.ezt.runningapp.screen.subscreen
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -64,9 +69,30 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
                 addAllPolylines()
             }
 
-            btnToggleRun.setOnClickListener {
-                toggleRun()
-            }
+
+                btnToggleRun.setOnClickListener {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                requireContext(),
+                                android.Manifest.permission.POST_NOTIFICATIONS
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            // Request permission
+                            requestPermissions(
+                                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                                REQUEST_CODE_POST_NOTIFICATIONS
+                            )
+                        } else {
+                            // Permission already granted
+                            toggleRun()
+                        }
+                    } else {
+                        // Below Android 13 – no need to ask
+                        toggleRun()
+                    }
+                }
+
+
             subscribeToObservers()
         }
     }
@@ -84,6 +110,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
         })
 
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
+            Log.d(TAG, "TrackingService.timeRunInMillis: $it")
             curTimeInMillis = it
             val formatted = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
             binding.tvTimer.text = formatted
@@ -188,11 +215,12 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
         }
     }
 
-    private fun sendCommandToService(action: String)  =
+    private fun sendCommandToService(action: String) {
         Intent(requireContext(), TrackingService::class.java).also {
             it.action = action
-            requireContext().startService(it)
+            requireContext().startForegroundService(it)
         }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -222,5 +250,32 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding.mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_POST_NOTIFICATIONS &&
+            grantResults.isNotEmpty() &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            toggleRun() // Proceed only if permission granted
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Notification permission required to start run tracking",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
+
+    companion object {
+        private val TAG = TrackingFragment::class.java.simpleName
+        private val REQUEST_CODE_POST_NOTIFICATIONS = 1000
     }
 }
