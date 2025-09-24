@@ -4,16 +4,16 @@ plugins {
 
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
+//    id("com.google.gms.google-services")
     alias(libs.plugins.navigation.safe.args) // ✅ this line
 }
 
 android {
-    namespace = "com.example.runningapp"
+    namespace = "com.ezt.runningapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.runningapp"
+        applicationId = "com.ezt.runningapp"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -36,7 +36,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
@@ -57,6 +57,7 @@ dependencies {
     implementation("com.intuit.sdp:sdp-android:1.1.1")
     implementation("com.auth0:java-jwt:4.4.0")
 
+    implementation("androidx.lifecycle:lifecycle-service:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.fragment:fragment-ktx:1.8.6")

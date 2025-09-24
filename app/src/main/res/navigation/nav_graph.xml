@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/runFragment"
-        android:name="com.example.runningapp.screen.subscreen.RunningFragment"
+        android:name="com.ezt.runningapp.screen.subscreen.RunningFragment"
         android:label="RunFragment" >
         <action
             android:id="@+id/action_runFragment_to_trackingFragment"
@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/setupFragment"
-        android:name="com.example.runningapp.screen.subscreen.SetupFragment"
+        android:name="com.ezt.runningapp.screen.subscreen.SetupFragment"
         android:label="SetupFragment" >
         <action
             android:id="@+id/action_setupFragment_to_runFragment"
@@ -21,11 +21,11 @@
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.example.runningapp.screen.subscreen.StatisticsFragment"
+        android:name="com.ezt.runningapp.screen.subscreen.StatisticsFragment"
         android:label="StatisticsFragment" />
     <fragment
         android:id="@+id/trackingFragment"
-        android:name="com.example.runningapp.screen.subscreen.TrackingFragment"
+        android:name="com.ezt.runningapp.screen.subscreen.TrackingFragment"
         android:label="TrackingFragment" >
         <action
             android:id="@+id/action_trackingFragment_to_runFragment"
@@ -33,6 +33,6 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.runningapp.screen.subscreen.SettingFragment"
+        android:name="com.ezt.runningapp.screen.subscreen.SettingFragment"
         android:label="SettingsFragment" />
 </navigation>
