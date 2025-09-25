@@ -12,22 +12,22 @@ class RunningRepository @Inject constructor(
 
     suspend fun deleteRun(run: Run) = runDao.deleteRun(run)
 
-    suspend fun getAlRunsSortedByDate() = runDao.getAllRunsSortedByDate()
+    fun getAllRunsSortedByDate() = runDao.getAllRunsSortedByDate()
 
-    suspend fun getAlRunsSortedByDistance() = runDao.getAllRunsSortedByDistanceInMeters()
+    fun getAllRunsSortedByDistance() = runDao.getAllRunsSortedByDistanceInMeters()
 
-    suspend fun getAlRunsSortedByTimeInMillis() = runDao.getAllRunsSortedByTimeInMillis()
+    fun getAllRunsSortedByTimeInMillis() = runDao.getAllRunsSortedByTimeInMillis()
 
-    suspend fun getAlRunsSortedByAvgSpeed() = runDao.getAllRunsSortedByAvgSpeedInKMH()
+    fun getAllRunsSortedByAvgSpeed() = runDao.getAllRunsSortedByAvgSpeedInKMH()
 
-    suspend fun getAlRunsSortedByCaloriesBurned() = runDao.getAllRunsSortedByCaloriesBurned()
+    fun getAllRunsSortedByCaloriesBurned() = runDao.getAllRunsSortedByCaloriesBurned()
 
 
-    suspend fun getTotalAvgSpeed() = runDao.getTotalAvgSpeed()
+     fun getTotalAvgSpeed() = runDao.getTotalAvgSpeed()
 
-    suspend fun getTotalDistance() = runDao.getTotalDistance()
+     fun getTotalDistance() = runDao.getTotalDistance()
 
-    suspend fun getTotalCaloriesBurned() = runDao.getTotalCaloriesBurned()
+     fun getTotalCaloriesBurned() = runDao.getTotalCaloriesBurned()
 
-    suspend fun getTotalTimeInMillis() = runDao.getTotalTimeMillis()
+     fun getTotalTimeInMillis() = runDao.getTotalTimeMillis()
 }

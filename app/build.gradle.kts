@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
+    id("kotlin-android-extensions")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
 //    id("com.google.gms.google-services")
@@ -91,4 +91,9 @@ dependencies {
 
     // Easy Permissions
     implementation("pub.devrel:easypermissions:3.0.0")
+
+    // MPAndroidChart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("android.arch.lifecycle:extensions:1.1.1")
+
 }

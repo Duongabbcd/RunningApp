@@ -28,6 +28,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.apply {
             setSupportActionBar(toolbar)
             bottomNavigationView.setupWithNavController(navController)
+            bottomNavigationView.setOnNavigationItemReselectedListener {
+                /* NO-OP*/
+            }
 
             // ✅ Handle destination changes
             navController.addOnDestinationChangedListener { _, destination, _ ->
